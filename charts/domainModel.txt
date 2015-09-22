@@ -1,0 +1,105 @@
+http://g.gravizo.com/g?
+@startuml;
+
+allow_mixing;
+
+actor EjecutivoDeCuentas;
+actor Gerente;
+
+class Cliente {;
+	+ int dni;
+	+ String nombre;
+	+ String domicilio;
+	+ String telefono;
+	+ String mail;
+};
+
+class Vehiculo {;
+	+ String patente;
+	+ String marca;
+	+ String modelo;
+	+ Date entrada;
+};
+
+class Cochera {;
+	+ String numero;
+	+ String tipo;
+	+ int x;
+	+ int y;
+	+ int z;
+	+ boolean estado;
+};
+
+class Abono {;
+	+ String nombre;
+	+ float precioPequeno;
+	+ float precioMediano;
+	+ float precioGrande;
+};
+
+class Quincenal {;
+	+ int quincenas;
+};
+
+class Mensual {;
+	+ int meses;
+};
+
+class MedioDePago {;
+};
+
+class Efectivo {;
+};
+
+class Cheque {;
+};
+
+class TarjetaDeCredito {;
+	+ String entidadEmisora;
+	+ String numero;
+	+ Date vencimiento;
+};
+
+class DebitoCBU {;
+	+ String entidadBancaria;
+	+ String CBU;
+};
+
+class Contrato {;
+	+ String descripcion;
+	+ Date fecha;
+	+ Date fechaFin;
+};
+
+class Cobro {;
+	+ Date fechaVencimiento;
+	+ float monto;
+	+ String descripcion;
+};
+
+EjecutivoDeCuentas -up- Vehiculo : administra;
+EjecutivoDeCuentas -up- Cliente : administra;
+EjecutivoDeCuentas -up- MedioDePago : administra;
+
+MedioDePago -up- Efectivo : es un;
+MedioDePago -up- Cheque : es un;
+MedioDePago -up- TarjetaDeCredito : es un;
+MedioDePago -up- DebitoCBU : es un;
+
+Abono -up- Quincenal : es un;
+Abono -up- Mensual : es un;
+
+Cliente "1" -- "\*" Vehiculo : estaciona;
+Cliente "1" -- "\*" MedioDePago : utiliza;
+
+Contrato "\*" -up- "1" MedioDePago : compone;
+Contrato "\*" -- "1" Cliente : compone;
+Contrato "\*" -- "1" Vehiculo : compone;
+Contrato "\*" -- "1" Cochera : compone;
+Contrato "1" -up- "\*" Cobro : compone;
+Contrato "\*" -down- "1" Abono : compone;
+
+Gerente -up- Cochera : administra;
+Gerente -up- Abono : administra;
+
+@enduml

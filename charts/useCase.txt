@@ -1,0 +1,45 @@
+http://g.gravizo.com/g?
+@startuml;
+
+left to right direction;
+
+:Ejecutivo de cuentas: as ejecutivo;
+:Gerente: as gerente;
+
+ejecutivo --> (Alta medio de pago);
+ejecutivo --> (Baja medio de pago);
+
+(Alta medio de pago) ..> (Buscar cliente) : includes;
+(Baja medio de pago) ..> (Buscar cliente) : includes;
+
+ejecutivo --> (Alta cliente);
+ejecutivo --> (Baja cliente);
+ejecutivo --> (Modificacion cliente);
+
+ejecutivo --> (Alta vehiculo);
+ejecutivo --> (Baja vehiculo);
+ejecutivo --> (Modificacion vehiculo);
+
+(Alta vehiculo) ..> (Buscar cliente) : includes;
+(Baja vehiculo) ..> (Buscar cliente) : includes;
+(Modificacion vehiculo) ..> (Buscar cliente) : includes;
+
+ejecutivo --> (Alta contrato);
+ejecutivo --> (Baja contrato);
+ejecutivo --> (Modificacion contrato);
+
+(Alta contrato) .> (Crear cobranzas) : includes;
+(Alta contrato) ..> (Buscar cliente) : includes;
+
+(Baja contrato) <. (Eliminar cobranzas) : includes;
+(Baja contrato) ..> (Buscar cliente) : includes;
+
+gerente --> (Alta abono);
+gerente --> (Baja abono);
+gerente --> (Modificacion abono);
+
+gerente --> (Alta cochera);
+gerente --> (Baja cochera);
+gerente --> (Modificacion cochera);
+
+@enduml
