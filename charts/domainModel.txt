@@ -1,6 +1,8 @@
 http://g.gravizo.com/g?
 @startuml;
 
+title Modelo de dominio;
+
 allow_mixing;
 
 actor EjecutivoDeCuentas;
@@ -12,6 +14,7 @@ class Cliente {;
 	+ String domicilio;
 	+ String telefono;
 	+ String mail;
+	+ boolean activo;
 };
 
 class Vehiculo {;
@@ -19,87 +22,94 @@ class Vehiculo {;
 	+ String marca;
 	+ String modelo;
 	+ Date entrada;
+	+ boolean activo;
 };
 
 class Cochera {;
 	+ String numero;
-	+ String tipo;
+	+ String tamano;
 	+ int x;
 	+ int y;
 	+ int z;
-	+ boolean estado;
+	+ boolean ocada;
+	+ boolean bloqueada;
+	+ boolean activo;
+};
+
+class EntidadBancaria {;
+	+ String nombre;
+	+ String archivoEntrada;
+	+ String archivoSalida;
+	+ boolean activo;
 };
 
 class Abono {;
+	+ {static} float TARIFA_HORA;
 	+ String nombre;
-	+ float precioPequeno;
-	+ float precioMediano;
-	+ float precioGrande;
-};
-
-class Quincenal {;
-	+ int quincenas;
-};
-
-class Mensual {;
-	+ int meses;
-};
-
-class MedioDePago {;
-};
-
-class Efectivo {;
-};
-
-class Cheque {;
-};
-
-class TarjetaDeCredito {;
-	+ String entidadEmisora;
-	+ String numero;
-	+ Date vencimiento;
-};
-
-class DebitoCBU {;
-	+ String entidadBancaria;
-	+ String CBU;
+	+ String tamano;
+	+ int dias;
+	+ float descuento;
+	+ boolean activo;
 };
 
 class Contrato {;
 	+ String descripcion;
-	+ Date fecha;
-	+ Date fechaFin;
+	+ Date inicio;
+	+ boolean activo;
+};
+
+class ContratoEfectivo {;
+};
+
+class ContratoTarjetaDeCredito {;
+	+ String numero;
+	+ Date vencimiento;
+};
+
+class ContratoClaveBancariaUniforme {;
+	+ String clave;
+};
+
+class ContratoCheque {;
+};
+
+class Cheque {;
+	+ int numero;
 };
 
 class Cobro {;
-	+ Date fechaVencimiento;
 	+ float monto;
-	+ String descripcion;
+	+ Date fechaVencimiento;
+	+ Date fechaCobro;
+	+ boolean pagado;
 };
 
-EjecutivoDeCuentas -up- Vehiculo : administra;
-EjecutivoDeCuentas -up- Cliente : administra;
-EjecutivoDeCuentas -up- MedioDePago : administra;
+EjecutivoDeCuentas --> Vehiculo : administra;
+EjecutivoDeCuentas --> Cliente : administra;
 
-MedioDePago -up- Efectivo : es un;
-MedioDePago -up- Cheque : es un;
-MedioDePago -up- TarjetaDeCredito : es un;
-MedioDePago -up- DebitoCBU : es un;
+Gerente --> EntidadBancaria : administra;
+Gerente --> Cochera : administra;
+Gerente --> Abono : administra;
 
-Abono -up- Quincenal : es un;
-Abono -up- Mensual : es un;
+Cliente "1" --> "\*" Vehiculo : estaciona;
 
-Cliente "1" -- "\*" Vehiculo : estaciona;
-Cliente "1" -- "\*" MedioDePago : utiliza;
+Contrato --> ContratoEfectivo : es un;
+Contrato --> ContratoTarjetaDeCredito : es un;
+Contrato --> ContratoClaveBancariaUniforme : es un;
+Contrato --> ContratoCheque : es un;
 
-Contrato "\*" -up- "1" MedioDePago : compone;
-Contrato "\*" -- "1" Cliente : compone;
-Contrato "\*" -- "1" Vehiculo : compone;
-Contrato "\*" -- "1" Cochera : compone;
-Contrato "1" -up- "\*" Cobro : compone;
-Contrato "\*" -down- "1" Abono : compone;
+ContratoTarjetaDeCredito "\*" --> "1" EntidadBancaria : compone;
+ContratoClaveBancariaUniforme "\*" --> "1" EntidadBancaria : compone;
+Cheque "\*" --> "1" EntidadBancaria : compone;
 
-Gerente -up- Cochera : administra;
-Gerente -up- Abono : administra;
+Cliente "1" --> "\*" Contrato : compone;
+Vehiculo "1" --> "\*" Contrato : compone;
+Cochera "1" --> "\*" Contrato : compone;
+Abono "1" --> "\*" Contrato : compone;
+Contrato "1" --> "\*" Cobro : compone;
+
+ContratoCheque "1" --> "\*" Cheque : abona;
+Cheque "1" --> "1" Cobro : abona;
+
 
 @enduml
