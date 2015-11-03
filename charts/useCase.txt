@@ -13,31 +13,21 @@ gerente --> (Alta cochera);
 gerente --> (Baja cochera);
 gerente --> (Modificacion cochera);
 
-gerente --> (Alta Entidad de pago);
-gerente --> (Baja Entidad de pago);
+gerente --> (Alta Entidad bancaria);
+gerente --> (Baja Entidad bancaria);
 
 :Ejecutivo de cuentas: as ejecutivo;
 
 ejecutivo --> (Alta cliente);
 ejecutivo --> (Baja cliente);
 ejecutivo --> (Modificacion cliente);
-
 ejecutivo --> (Alta vehiculo);
-(Alta vehiculo) ..> (Buscar cliente) : includes;
-
 ejecutivo --> (Baja vehiculo);
-(Baja vehiculo) ..> (Buscar cliente) : includes;
-
 ejecutivo --> (Modificacion vehiculo);
-(Modificacion vehiculo) ..> (Buscar cliente) : includes;
-
 ejecutivo --> (Alta contrato);
-(Alta contrato) ..> (Buscar cliente) : includes;
-
 ejecutivo --> (Baja contrato);
-(Baja contrato) ..> (Buscar cliente) : includes;
-
 ejecutivo --> (Modificacion contrato);
-(Modificacion contrato) ..> (Buscar cliente) : includes;
+ejecutivo --> (Alta Cobranza);
+ejecutivo --> (Baja Cobranza);
 
 @enduml
