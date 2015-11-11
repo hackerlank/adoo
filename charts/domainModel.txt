@@ -77,6 +77,9 @@ class Cheque {;
 	+ int numero;
 };
 
+class PagoCheque {;
+};
+
 class Cobro {;
 	+ float monto;
 	+ Date fechaVencimiento;
@@ -108,8 +111,9 @@ Cochera "1" --> "\*" Contrato : compone;
 Abono "1" --> "\*" Contrato : compone;
 Contrato "1" --> "\*" Cobro : compone;
 
-ContratoCheque "1" --> "\*" Cheque : abona;
-Cheque "1" --> "1" Cobro : abona;
+ContratoCheque "1" --> "\*" PagoCheque : compone;
+PagoCheque "1" --> "\*" Cheque : compone;
+Cheque "1" --> "1" Cobro : paga;
 
 
 @enduml
