@@ -30,4 +30,12 @@ ejecutivo --> (Modificacion contrato);
 ejecutivo --> (Alta Cobranza);
 ejecutivo --> (Baja Cobranza);
 
+:Sistema as sistema;
+
+sistema --> (Alta cobranzas);
+sistema --> (Envío de información a entidades bancarias);
+sistema --> (Recepción de cobros realizados a entidades bancarias);
+sistema --> (Cancelación de cobranza);
+sistema --> (Control de cobranza);
+
 @enduml
